@@ -13,12 +13,24 @@ export default function Index() {
     "VITALWERTE ÜBERPRÜFEN",
   ];
 
+  const navigationPaths = [
+    "/akuteSituationen",
+    "/vergiftung&Giftiges",
+    "/symptomeErkennen",
+    "/konkreteMassnahmem",
+    "/vitalwerteUberprufen",
+  ];
+
   return (
-    <View style={{ flex: 1, backgroundColor: "#F5F5F5" }}>
+    <View style={{ flex: 1, backgroundColor: "#FFFFFF" }}>
       <StatusBar barStyle="dark-content" backgroundColor="#F5F5F5" />
-      <AppBar />
-      <HeroSection />
-      <ButtonTitles buttonTitles={buttonTitles} />
+      <AppBar bottomTitle="Hauptthemen" />
+      <HeroSection isUnterkategorie={false} />
+      <ButtonTitles
+        buttonTitles={buttonTitles}
+        navigationPaths={navigationPaths}
+        isUnterkategorie={false}
+      />
     </View>
   );
 }
