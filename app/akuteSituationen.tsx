@@ -14,6 +14,15 @@ export default function Index() {
     "Ertrinken",
   ];
 
+  const navigationPaths = [
+    "/dynamicPage",
+    "/dynamicPage",
+    "/dynamicPage",
+    "/dynamicPage",
+    "/dynamicPage",
+    "/dynamicPage",
+  ];
+
   return (
     <View style={{ flex: 1, backgroundColor: "#FFFFFF" }}>
       <StatusBar barStyle="dark-content" backgroundColor="#F5F5F5" />
@@ -23,7 +32,7 @@ export default function Index() {
         title="Akute"
         subTitle="Situationen."
       />
-      <ButtonTitles buttonTitles={buttonTitles} isUnterkategorie={true} />
+      <ButtonTitles buttonTitles={buttonTitles} isUnterkategorie={true} navigationPaths={navigationPaths} />
     </View>
   );
 }

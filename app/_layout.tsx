@@ -60,6 +60,12 @@ export default function RootLayout() {
           headerShown: false,
         }}
       />
+      <Stack.Screen
+        name="dynamicPage"
+        options={{
+          headerShown: false,
+        }}
+      />
     </Stack>
   );
 }
