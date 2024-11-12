@@ -1,0 +1,111 @@
+{
+  "pages": [
+    {
+      "title": "Herzstillstand",
+      "sections": [
+        {
+          "id": "1",
+          "title": "Ausgangslage",
+          "content": [
+            {
+              "type": "highlightedText",
+              "text": "Kein Lebenszeichen, keine Atmung."
+            },
+            {
+              "type": "bullet",
+              "content": "nach Unfall"
+            },
+            {
+              "type": "bullet",
+              "content": "starke Blutung"
+            },
+            {
+              "type": "bullet",
+              "content": "Stromschlag/Hitzschlag"
+            },
+            {
+              "type": "bullet",
+              "content": "andere Ursache"
+            },
+            {
+              "type": "bullet",
+              "content": "kein Lebenszeichen"
+            }
+          ]
+        },
+        {
+          "id": "2",
+          "title": "Vorbereitung",
+          "content": [
+            {
+              "type": "highlightedText",
+              "text": "Ruhe Bewahren."
+            },
+            {
+              "type": "bullet",
+              "content": "Ruhe bewahren und beteiligte Menschen und Tiere beruhigen."
+            },
+            {
+              "type": "buttonText",
+              "content": "Maulschlinge"
+            }
+          ]
+        },
+        {
+          "id": "3",
+          "title": "symptome",
+          "content": [
+            {
+              "type": "bullet",
+              "items": [
+                "Ruhe Bewahren.",
+                "Hund in stabile Seitenlage bringen",
+                "Sicherstellen, dass die Atemwege frei sind"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "4",
+          "title": "Massnahmen",
+          "content": [
+            {
+              "type": "highlightedText",
+              "text": "Im Notfall:"
+            },
+            {
+              "type": "bullet",
+              "items": [
+                "Lebensgefährdende Ursachen beseitigen",
+                "Wiederbelebende Maßnahmen einleiten",
+                "Herzdruckmassage"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "5",
+          "title": "Transport",
+          "content": [
+            {
+              "type": "highlightedText",
+              "text": "Im Notfall:"
+            },
+            {
+              "type": "bullet",
+              "items": [
+                "Lebensgefährdende Ursachen beseitigen",
+                "Wiederbelebende Maßnahmen einleiten",
+                "Herzdruckmassage"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Atemstillstand",
+      "sections": []
+    }
+  ]
+}
