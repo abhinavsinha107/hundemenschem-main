@@ -3,8 +3,11 @@ import { View, StatusBar } from "react-native";
 import AppBar from "../components/topBar";
 import HeroSection from "../components/heroSection";
 import ButtonTitles from "../components/buttonTitles";
+import { useLocalSearchParams } from "expo-router";
 
 export default function Index() {
+  const { page } = useLocalSearchParams();
+
   const buttonTitles = [
     "Unterkategorie",
     "Unterkategorie",

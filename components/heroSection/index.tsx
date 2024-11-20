@@ -1,5 +1,5 @@
 import React from "react";
-import { Image, Text, TextInput, View } from "react-native";
+import { Image, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import Entypo from "@expo/vector-icons/Entypo";
 
@@ -8,6 +8,7 @@ interface HeroSectionProps {
   title?: string;
   subTitle?: string;
   isDynamicPage?: boolean;
+  setShowHeroSection?: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 const HeroSection = ({
@@ -15,7 +16,9 @@ const HeroSection = ({
   title,
   subTitle,
   isDynamicPage,
+  setShowHeroSection
 }: HeroSectionProps) => {
+
   return (
     <View style={{ padding: 20 }}>
       {!isUnterkategorie ? (
@@ -41,9 +44,9 @@ const HeroSection = ({
                 beachten ist.
               </Text>
             </View>
-            <View style={{ position: "absolute", right: 0, bottom: 0 }}>
+            {setShowHeroSection && <TouchableOpacity style={{ position: "absolute", right: 0, bottom: 0 }} onPress={() => setShowHeroSection(false)}>
               <Entypo name="cross" size={16} color="#3B3B3B" />
-            </View>
+            </TouchableOpacity>}
           </View>
         ) : (
           <>
@@ -138,6 +141,7 @@ const HeroSection = ({
               padding: 8,
               flex: 1,
             }}
+            placeholderTextColor="#3B3B3B"
           />
         </View>
       )}

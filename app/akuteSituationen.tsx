@@ -3,24 +3,18 @@ import { View, StatusBar } from "react-native";
 import AppBar from "../components/topBar";
 import HeroSection from "../components/heroSection";
 import ButtonTitles from "../components/buttonTitles";
+import { useLocalSearchParams } from "expo-router";
 
 export default function Index() {
+  const { page } = useLocalSearchParams();
+
   const buttonTitles = [
     "Herzstillstand",
     "Atemstillstand",
     "Schockzustand",
-    "STarke blutungen",
+    "Starke blutungen",
     "Erstickungsgefahr",
     "Ertrinken",
-  ];
-
-  const navigationPaths = [
-    "/dynamicPage",
-    "/dynamicPage",
-    "/dynamicPage",
-    "/dynamicPage",
-    "/dynamicPage",
-    "/dynamicPage",
   ];
 
   return (
@@ -32,7 +26,7 @@ export default function Index() {
         title="Akute"
         subTitle="Situationen."
       />
-      <ButtonTitles buttonTitles={buttonTitles} isUnterkategorie={true} navigationPaths={navigationPaths} />
+      <ButtonTitles buttonTitles={buttonTitles} isUnterkategorie={true} page={page} />
     </View>
   );
 }

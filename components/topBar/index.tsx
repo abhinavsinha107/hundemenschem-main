@@ -68,13 +68,14 @@ const TopBar = ({ bottomTitle }: TopBarProps) => {
           right: 15,
           top: 60,
           borderRadius: 50,
+          zIndex: 999,
         }}
       >
         <FontAwesome
           name="circle"
           size={90}
           color="#C2DE4C"
-          style={{ paddingHorizontal: 6 }}
+          style={{ paddingHorizontal: 6, zIndex: 999 }}
         />
       </TouchableOpacity>
       <View style={{ position: "absolute", zIndex: 999, right: 55, top: 70 }}>

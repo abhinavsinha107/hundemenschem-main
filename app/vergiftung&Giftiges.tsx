@@ -3,8 +3,11 @@ import { View, StatusBar } from "react-native";
 import AppBar from "../components/topBar";
 import HeroSection from "../components/heroSection";
 import ButtonTitles from "../components/buttonTitles";
+import { useLocalSearchParams } from "expo-router";
 
 export default function Index() {
+  const { page } = useLocalSearchParams();
+
   const buttonTitles = [
     "Vergiftung Allgemein",
     "Blaukorn-Vergiftung",
@@ -16,6 +19,15 @@ export default function Index() {
     "Giftige Lebensmittel",
   ];
 
+  const navigationPaths = [
+    "/dynamicPage",
+    "/dynamicPage",
+    "/dynamicPage",
+    "/dynamicPage",
+    "/dynamicPage",
+    "/dynamicPage",
+  ];
+
   return (
     <View style={{ flex: 1, backgroundColor: "#FFFFFF" }}>
       <StatusBar barStyle="dark-content" backgroundColor="#F5F5F5" />
@@ -25,7 +37,7 @@ export default function Index() {
         title="Vergiftung"
         subTitle="& Giftiges."
       />
-      <ButtonTitles buttonTitles={buttonTitles} isUnterkategorie={true} />
+      <ButtonTitles buttonTitles={buttonTitles} isUnterkategorie={true} navigationPaths={navigationPaths} page={page} />
     </View>
   );
 }
