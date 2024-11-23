@@ -28,7 +28,7 @@ const buttonTitles = [
 
 const SearchResults = ({ results, searchText }: Props) => {
   const handleNavigation = (page: number, index: number)=>{
-    console.log("push push push the route")
+    console.log(page, index, "push push push the route")
     router.push({
       pathname: '/dynamicPage',
       params: { index: page, subIndex: index },
@@ -39,7 +39,7 @@ const SearchResults = ({ results, searchText }: Props) => {
       <Text style={styles.staticText}>Suchbegriff: <Text style={styles.searchedTerm}>{searchText}</Text></Text>
       {results?.map((item: SearchResult, index: number) => {
         return (
-          <TouchableOpacity activeOpacity={1} onPress={()=>handleNavigation(item.sectionIndex, item.subPageIndex)} key={index} style={styles.container}>
+          <TouchableOpacity activeOpacity={1} onPress={()=>handleNavigation(item.pageIndex, item.subPageIndex)} key={index} style={styles.container}>
             <View style={styles.roundedLine} />
             <View style={styles.innerContainer}>
               <Text numberOfLines={1} style={styles.highlightText}>

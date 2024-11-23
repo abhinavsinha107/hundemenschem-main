@@ -145,7 +145,7 @@ export default function Index() {
         if (searchResults.length > 0) {
           setResults(searchResults);
           setShowSearchResults(true);
-          console.log(searchResults, "Results Found");
+          // console.log(searchResults, "Results Found");
         } else {
           setShowSearchResults(false);
         }
