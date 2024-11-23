@@ -8,7 +8,7 @@ interface HeroSectionProps {
   title?: string;
   subTitle?: string;
   isDynamicPage?: boolean;
-  setShowHeroSection?: React.Dispatch<React.SetStateAction<boolean>>
+  setShowHeroSection?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const HeroSection = ({
@@ -16,9 +16,8 @@ const HeroSection = ({
   title,
   subTitle,
   isDynamicPage,
-  setShowHeroSection
+  setShowHeroSection,
 }: HeroSectionProps) => {
-
   return (
     <View style={{ padding: 20 }}>
       {!isUnterkategorie ? (
@@ -44,9 +43,14 @@ const HeroSection = ({
                 beachten ist.
               </Text>
             </View>
-            {setShowHeroSection && <TouchableOpacity style={{ position: "absolute", right: 0, bottom: 0 }} onPress={() => setShowHeroSection(false)}>
-              <Entypo name="cross" size={16} color="#3B3B3B" />
-            </TouchableOpacity>}
+            {setShowHeroSection && (
+              <TouchableOpacity
+                style={{ position: "absolute", right: 0, bottom: 0 }}
+                onPress={() => setShowHeroSection(false)}
+              >
+                <Entypo name="cross" size={16} color="#3B3B3B" />
+              </TouchableOpacity>
+            )}
           </View>
         ) : (
           <>

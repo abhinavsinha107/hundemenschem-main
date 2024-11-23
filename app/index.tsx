@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, StatusBar } from "react-native";
 import AppBar from "../components/topBar";
 import HeroSection from "../components/heroSection";
@@ -24,57 +24,133 @@ export default function Index() {
     "/vitalwerteUberprufen",
   ];
 
-  const [searchQuery, setSearchQuery] = useState('');
-  const [results, setResults] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [results, setResults] = useState<SearchResult[]>([]);
   const [showSearchResults, setShowSearchResults] = useState(false);
 
+  type ContentItem = {
+    type: string;
+    content?: string | ContentItem[] | undefined;
+    text?: string;
+  };
 
-  // const searchInJson = (query: string) => {
-  //   const filteredResults: any = [];
+  type Section = {
+    id: string;
+    title: string;
+    content: ContentItem[];
+  };
 
-  //   const recursiveSearch = (section: any, pageIndex: any, subPageIndex: any) => {
-  //     sections && sections.forEach((item: any) => {
-  //       // Check if the content matches the search query
-  //       if (item.content && item.content.toLowerCase().includes(query.toLowerCase())) {
-  //         filteredResults.push({
-  //           pageIndex,
-  //           subPageIndex,
-  //           title: item.title || 'No Title',
-  //           content: item.content
-  //         });
-  //       }
+  type SubPage = {
+    title: string;
+    sections: Section[];
+  };
 
-  //       // If the item is a subTopic, recursively search within its content
-  //       if (item.type === 'subTopic' && Array.isArray(item.content)) {
-  //         recursiveSearch(item.content, pageIndex, subPageIndex);
-  //       }
-  //     });
-  //   };
+  type Page = {
+    title: string;
+    subPages: SubPage[];
+  };
 
-  //   // Loop through pages and subpages
-  //   data.pages.forEach((page: any, pageIndex: any) => {
-  //     page.subPages.forEach((subPage: any, subPageIndex: any) => {
-  //       // Perform the search on the sections of the subPage
-  //       recursiveSearch(subPage.section, pageIndex, subPageIndex);
-  //     });
-  //   });
+  type DataStructure = {
+    pages: Page[];
+  };
 
-  //   setResults(filteredResults);
-  // };
+  type SearchResult = {
+    pageIndex: number;
+    pageTitle: string;
+    subPageIndex: number;
+    subPageTitle: string;
+    sectionIndex: number;
+    sectionTitle: string;
+    contentType: string;
+    contentText: string;
+  };
 
-  // console.log(searchInJson('keine Atmung'))
+  function searchContent(data: DataStructure, term: string): SearchResult[] {
+    if (term.length < 5) return []; // Ensure the term has at least 5 characters
+
+    const results: SearchResult[] = [];
+
+    function recursiveSearch(pages: Page[], pageIndex: number = 0): void {
+      pages?.forEach((page, pageIndex) => {
+        page.subPages?.forEach((subPage, subPageIndex) => {
+          subPage.sections?.forEach((section, sectionIndex) => {
+            section.content?.forEach((contentItem) => {
+              if (typeof contentItem === "object") {
+                const textContent =
+                  contentItem.text ||
+                  (typeof contentItem.content === "string"
+                    ? contentItem.content
+                    : "");
+
+                if (textContent.toLowerCase().includes(term.toLowerCase())) {
+                  results.push({
+                    pageIndex,
+                    pageTitle: page.title,
+                    subPageIndex,
+                    subPageTitle: subPage.title,
+                    sectionIndex,
+                    sectionTitle: section.title,
+                    contentType: contentItem.type,
+                    contentText: textContent,
+                  });
+                }
+
+                // Recursive check for nested subTopics
+                if (
+                  contentItem.type === "subTopic" &&
+                  Array.isArray(contentItem.content)
+                ) {
+                  recursiveSearch(
+                    [
+                      {
+                        title: subPage.title,
+                        subPages: contentItem.content as any,
+                      },
+                    ],
+                    pageIndex
+                  );
+                }
+              }
+            });
+          });
+        });
+      });
+    }
+
+    recursiveSearch(data.pages);
+
+    return results;
+  }
+
+  // Example Usage
+  const searchTerm = "und beteiligte"; // Example term
+  const searchResults = searchContent(data, searchTerm);
+
+  console.log(searchResults.length, "herererrere");
+
+  useEffect(() => {
+    if (searchResults.length > 0) {
+      setResults(searchResults);
+      setShowSearchResults(true);
+    }
+  }, []);
+
+  console.log(searchResults);
 
   return (
     <View style={{ flex: 1, backgroundColor: "#FFFFFF" }}>
       <StatusBar barStyle="dark-content" backgroundColor="#F5F5F5" />
       <AppBar bottomTitle="Hauptthemen" />
       <HeroSection isUnterkategorie={false} />
-      {showSearchResults ? <SearchResults /> : <ButtonTitles
-        buttonTitles={buttonTitles}
-        navigationPaths={navigationPaths}
-        isUnterkategorie={false}
-      />}
-
+      {showSearchResults ? (
+        <SearchResults results={results} />
+      ) : (
+        <ButtonTitles
+          buttonTitles={buttonTitles}
+          navigationPaths={navigationPaths}
+          isUnterkategorie={false}
+        />
+      )}
     </View>
   );
 }
