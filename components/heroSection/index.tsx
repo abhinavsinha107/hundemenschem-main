@@ -5,10 +5,12 @@ import Entypo from "@expo/vector-icons/Entypo";
 
 interface HeroSectionProps {
   isUnterkategorie: boolean;
+  searchQuery?: string;
   title?: string;
   subTitle?: string;
   isDynamicPage?: boolean;
   setShowHeroSection?: React.Dispatch<React.SetStateAction<boolean>>;
+  setSearchQuery?: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const HeroSection = ({
@@ -17,6 +19,8 @@ const HeroSection = ({
   subTitle,
   isDynamicPage,
   setShowHeroSection,
+  setSearchQuery,
+  searchQuery,
 }: HeroSectionProps) => {
   return (
     <View style={{ padding: 20 }}>
@@ -145,6 +149,10 @@ const HeroSection = ({
               padding: 8,
               flex: 1,
             }}
+            onChangeText={(text: string) =>
+              setSearchQuery && setSearchQuery(text)
+            }
+            value={searchQuery}
             placeholderTextColor="#3B3B3B"
           />
         </View>

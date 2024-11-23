@@ -18,7 +18,9 @@ const data = require("../constants/data.json");
 
 export default function Index() {
   const { index, subIndex } = useLocalSearchParams();
-  const page = data.pages[index as any].subPages[subIndex as any];
+  console.log(index, subIndex, typeof index, typeof subIndex, "---->");
+  const page =
+    data.pages[Number(index) as any].subPages[Number(subIndex) as any];
 
   const [showHeroSection, setShowHeroSection] = useState(true);
 
@@ -33,14 +35,21 @@ export default function Index() {
     }));
   };
 
-
   return (
     <View style={{ flex: 1, backgroundColor: "#FFFFFF" }}>
       <StatusBar barStyle="dark-content" backgroundColor="#F5F5F5" />
-      <View style={{ position: "static", top: 0, left: 0, right: 0, zIndex: 1 }}>
+      <View
+        style={{ position: "static", top: 0, left: 0, right: 0, zIndex: 1 }}
+      >
         <AppBar bottomTitle="Einzelseite" />
       </View>
-      {showHeroSection && <HeroSection isUnterkategorie={false} isDynamicPage={true} setShowHeroSection={setShowHeroSection} />}
+      {showHeroSection && (
+        <HeroSection
+          isUnterkategorie={false}
+          isDynamicPage={true}
+          setShowHeroSection={setShowHeroSection}
+        />
+      )}
 
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={{ backgroundColor: "#E9E8E8", paddingVertical: 10 }}>
@@ -102,10 +111,7 @@ export default function Index() {
                           </View>
                         );
                       case "redLine":
-                        return (
-                          <View key={idx} style={styles.redLine}>
-                          </View>
-                        );
+                        return <View key={idx} style={styles.redLine}></View>;
                       case "simpleText":
                         return (
                           <View key={idx}>
@@ -117,132 +123,230 @@ export default function Index() {
                       case "paragraph":
                         return (
                           <View key={idx}>
-                            <Text style={styles.paragraph}>
-                              {item.content}
-                            </Text>
+                            <Text style={styles.paragraph}>{item.content}</Text>
                           </View>
                         );
                       case "subTopic":
-                        return <View key={idx}>
-                          {
-                            item.content.map((subItem: any, subIdx: any) => {
-                              return subItem.content.map((subItemContent: any, subItemContentIdx: any) => {
-                                switch (subItemContent.type) {
-                                  case "subHeading":
-                                    return (
-                                      <View key={subItemContentIdx}>
-                                        <Text style={styles.subHeading}>
-                                          <Text style={{ color: "#899E33" }}>{String.fromCharCode(64 + index + 1)}.{subIdx + 1} </Text>
-                                          {subItemContent.text}
-                                        </Text>
-                                      </View>
-                                    )
-                                  case "bullet":
-                                    return (
-                                      <View key={subItemContentIdx} style={styles.bulletContainer}>
-                                        <Feather name="check" size={24} color="#899E33" />
-                                        <Text style={styles.bulletPoint}>
-                                          {subItemContent.content}
-                                        </Text>
-                                      </View>
-                                    )
-                                  case "buttonText":
-                                    return (
-                                      <View key={subItemContentIdx} style={styles.buttonText}>
-                                        <Text style={styles.buttonTextContent}>
-                                          {subItemContent.content}
-                                        </Text>
-                                      </View>
-                                    );
-                                  case "paragraph":
-                                    return (
-                                      <View key={subItemContentIdx}>
-                                        <Text style={styles.paragraph}>
-                                          {subItemContent.content}
-                                        </Text>
-                                      </View>
-                                    );
-                                  case "errorWarning":
-                                    return (
-                                      <View key={subItemContentIdx} style={{ display: "flex", flexDirection: "row", marginTop: 10, marginBottom: 20 }}>
-                                        <View>
-                                          <Image
-                                            source={require("@/assets/images/Info.png")}
-                                            style={{ alignSelf: "center" }}
-                                          />
+                        return (
+                          <View key={idx}>
+                            {item.content.map((subItem: any, subIdx: any) => {
+                              return subItem.content.map(
+                                (
+                                  subItemContent: any,
+                                  subItemContentIdx: any
+                                ) => {
+                                  switch (subItemContent.type) {
+                                    case "subHeading":
+                                      return (
+                                        <View key={subItemContentIdx}>
+                                          <Text style={styles.subHeading}>
+                                            <Text style={{ color: "#899E33" }}>
+                                              {String.fromCharCode(
+                                                64 + index + 1
+                                              )}
+                                              .{subIdx + 1}{" "}
+                                            </Text>
+                                            {subItemContent.text}
+                                          </Text>
                                         </View>
-                                        <Text style={styles.errorWarning}>
-                                          {subItemContent.content}
-                                        </Text>
-                                      </View>
-                                    );
-                                  case "subTopic":
-                                    return <View key={subItemContentIdx}>
-                                      {
-                                        subItemContent.content.map((subSubItem: any, subSubIdx: any) => {
-                                          return subSubItem.content.map((subSubItemContent: any, subSubItemContentIdx: any) => {
-                                            switch (subSubItemContent.type) {
-                                              case "subHeading":
-                                                return (
-                                                  <View key={subSubItemContentIdx}>
-                                                    <Text style={styles.subHeading}>
-                                                      <Text style={{ color: "#899E33" }}>{String.fromCharCode(64 + index + 1)}.{subIdx + 1}.{subSubIdx + 1} </Text>
-                                                      {subSubItemContent.text}
-                                                    </Text>
-                                                  </View>
-                                                )
-                                              case "bullet":
-                                                return (
-                                                  <View key={subSubItemContentIdx} style={styles.bulletContainer}>
-                                                    <Feather name="check" size={24} color="#899E33" />
-                                                    <Text style={styles.bulletPoint}>
-                                                      {subSubItemContent.content}
-                                                    </Text>
-                                                  </View>
-                                                )
-                                              case "buttonText":
-                                                return (
-                                                  <View key={subSubItemContentIdx} style={styles.buttonText}>
-                                                    <Text style={styles.buttonTextContent}>
-                                                      {subSubItemContent.content}
-                                                    </Text>
-                                                  </View>
-                                                );
-                                              case "image":
-                                                return (
-                                                  <Image
-                                                    key={subSubItemContentIdx}
-                                                    source={
-                                                      subSubItemContent.type === "image" &&
-                                                        subSubItemContent.content.includes('@/assets/images/')
-                                                        ? require('@/assets/images/dog.png')
-                                                        : null
-                                                    }
-                                                    style={{ alignSelf: "center", marginVertical: 10 }}
-                                                  />
-                                                  // <Image key={subSubItemContentIdx} source={{ uri: 'https://lh3.googleusercontent.com/9tLfTpdILdHDAvGrRm7GdbjWdpbWSMOa0csoQ8pUba9tLP8tq7M4Quks1xuMQAVnAxVfryiDXRzZ-KDnkPv8Sm4g_YFom1ltQHjQ6Q' }} 
-                                                  // resizeMode="cover"
-                                                  // style={{ width: 200, height: 200 }} />
-                                                );
-                                              default:
-                                                return null;
+                                      );
+                                    case "bullet":
+                                      return (
+                                        <View
+                                          key={subItemContentIdx}
+                                          style={styles.bulletContainer}
+                                        >
+                                          <Feather
+                                            name="check"
+                                            size={24}
+                                            color="#899E33"
+                                          />
+                                          <Text style={styles.bulletPoint}>
+                                            {subItemContent.content}
+                                          </Text>
+                                        </View>
+                                      );
+                                    case "buttonText":
+                                      return (
+                                        <View
+                                          key={subItemContentIdx}
+                                          style={styles.buttonText}
+                                        >
+                                          <Text
+                                            style={styles.buttonTextContent}
+                                          >
+                                            {subItemContent.content}
+                                          </Text>
+                                        </View>
+                                      );
+                                    case "paragraph":
+                                      return (
+                                        <View key={subItemContentIdx}>
+                                          <Text style={styles.paragraph}>
+                                            {subItemContent.content}
+                                          </Text>
+                                        </View>
+                                      );
+                                    case "errorWarning":
+                                      return (
+                                        <View
+                                          key={subItemContentIdx}
+                                          style={{
+                                            display: "flex",
+                                            flexDirection: "row",
+                                            marginTop: 10,
+                                            marginBottom: 20,
+                                          }}
+                                        >
+                                          <View>
+                                            <Image
+                                              source={require("@/assets/images/Info.png")}
+                                              style={{ alignSelf: "center" }}
+                                            />
+                                          </View>
+                                          <Text style={styles.errorWarning}>
+                                            {subItemContent.content}
+                                          </Text>
+                                        </View>
+                                      );
+                                    case "subTopic":
+                                      return (
+                                        <View key={subItemContentIdx}>
+                                          {subItemContent.content.map(
+                                            (
+                                              subSubItem: any,
+                                              subSubIdx: any
+                                            ) => {
+                                              return subSubItem.content.map(
+                                                (
+                                                  subSubItemContent: any,
+                                                  subSubItemContentIdx: any
+                                                ) => {
+                                                  switch (
+                                                    subSubItemContent.type
+                                                  ) {
+                                                    case "subHeading":
+                                                      return (
+                                                        <View
+                                                          key={
+                                                            subSubItemContentIdx
+                                                          }
+                                                        >
+                                                          <Text
+                                                            style={
+                                                              styles.subHeading
+                                                            }
+                                                          >
+                                                            <Text
+                                                              style={{
+                                                                color:
+                                                                  "#899E33",
+                                                              }}
+                                                            >
+                                                              {String.fromCharCode(
+                                                                64 + index + 1
+                                                              )}
+                                                              .{subIdx + 1}.
+                                                              {subSubIdx + 1}{" "}
+                                                            </Text>
+                                                            {
+                                                              subSubItemContent.text
+                                                            }
+                                                          </Text>
+                                                        </View>
+                                                      );
+                                                    case "bullet":
+                                                      return (
+                                                        <View
+                                                          key={
+                                                            subSubItemContentIdx
+                                                          }
+                                                          style={
+                                                            styles.bulletContainer
+                                                          }
+                                                        >
+                                                          <Feather
+                                                            name="check"
+                                                            size={24}
+                                                            color="#899E33"
+                                                          />
+                                                          <Text
+                                                            style={
+                                                              styles.bulletPoint
+                                                            }
+                                                          >
+                                                            {
+                                                              subSubItemContent.content
+                                                            }
+                                                          </Text>
+                                                        </View>
+                                                      );
+                                                    case "buttonText":
+                                                      return (
+                                                        <View
+                                                          key={
+                                                            subSubItemContentIdx
+                                                          }
+                                                          style={
+                                                            styles.buttonText
+                                                          }
+                                                        >
+                                                          <Text
+                                                            style={
+                                                              styles.buttonTextContent
+                                                            }
+                                                          >
+                                                            {
+                                                              subSubItemContent.content
+                                                            }
+                                                          </Text>
+                                                        </View>
+                                                      );
+                                                    case "image":
+                                                      return (
+                                                        <Image
+                                                          key={
+                                                            subSubItemContentIdx
+                                                          }
+                                                          source={
+                                                            subSubItemContent.type ===
+                                                              "image" &&
+                                                            subSubItemContent.content.includes(
+                                                              "@/assets/images/"
+                                                            )
+                                                              ? require("@/assets/images/dog.png")
+                                                              : null
+                                                          }
+                                                          style={{
+                                                            alignSelf: "center",
+                                                            marginVertical: 10,
+                                                          }}
+                                                        />
+                                                        // <Image key={subSubItemContentIdx} source={{ uri: 'https://lh3.googleusercontent.com/9tLfTpdILdHDAvGrRm7GdbjWdpbWSMOa0csoQ8pUba9tLP8tq7M4Quks1xuMQAVnAxVfryiDXRzZ-KDnkPv8Sm4g_YFom1ltQHjQ6Q' }}
+                                                        // resizeMode="cover"
+                                                        // style={{ width: 200, height: 200 }} />
+                                                      );
+                                                    default:
+                                                      return null;
+                                                  }
+                                                }
+                                              );
                                             }
-                                          })
-                                        })
-                                      }
-                                    </View>
-                                  default:
-                                    return null;
+                                          )}
+                                        </View>
+                                      );
+                                    default:
+                                      return null;
+                                  }
                                 }
-                              })
-                            })
-                          }
-                        </View>
+                              );
+                            })}
+                          </View>
+                        );
                       default:
                         return null;
                     }
-                  })
-                }
+                  })}
               </Pressable>
             </View>
           ))}
@@ -258,7 +362,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     backgroundColor: "#ffffff",
     marginTop: 20,
-    marginBottom: 50
+    marginBottom: 50,
   },
   pageTitle: {
     fontSize: 22,
@@ -294,7 +398,7 @@ const styles = StyleSheet.create({
     letterSpacing: 1,
     textTransform: "uppercase",
     textAlign: "center",
-    maxWidth: "70%"
+    maxWidth: "70%",
   },
   sectionTitle: {
     fontSize: 20,
@@ -346,21 +450,21 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
   simpleTextContent: {
-    fontFamily: 'Brother 1816 Printed',
+    fontFamily: "Brother 1816 Printed",
     fontWeight: "400",
     fontSize: 12,
     lineHeight: 16,
     marginBottom: 10,
   },
   paragraph: {
-    fontFamily: 'Brother 1816 Printed',
+    fontFamily: "Brother 1816 Printed",
     fontWeight: "400",
     fontSize: 14,
     lineHeight: 17,
-    marginBottom: 10
+    marginBottom: 10,
   },
   subHeading: {
-    fontFamily: 'Brother 1816 Printed',
+    fontFamily: "Brother 1816 Printed",
     fontWeight: "500",
     fontSize: 20,
     lineHeight: 25,
@@ -371,10 +475,10 @@ const styles = StyleSheet.create({
   errorWarning: {
     marginLeft: 10,
     maxWidth: "90%",
-    fontFamily: 'Brother 1816 Printed',
+    fontFamily: "Brother 1816 Printed",
     fontWeight: "700",
     fontSize: 14,
     lineHeight: 17,
-    color: '#FC6060'
-  }
+    color: "#FC6060",
+  },
 });

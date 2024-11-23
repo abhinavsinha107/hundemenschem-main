@@ -66,9 +66,10 @@ export default function Index() {
   };
 
   function searchContent(data: DataStructure, term: string): SearchResult[] {
-    if (term.length < 5) return []; // Ensure the term has at least 5 characters
+    if (term.length < 1) return [];
 
     const results: SearchResult[] = [];
+    const seenContent = new Set<string>();
 
     function recursiveSearch(pages: Page[], pageIndex: number = 0): void {
       pages?.forEach((page, pageIndex) => {
@@ -82,7 +83,12 @@ export default function Index() {
                     ? contentItem.content
                     : "");
 
-                if (textContent.toLowerCase().includes(term.toLowerCase())) {
+                const lowerCaseContent = textContent.toLowerCase();
+                if (
+                  lowerCaseContent.includes(term.toLowerCase()) &&
+                  !seenContent.has(lowerCaseContent)
+                ) {
+                  seenContent.add(lowerCaseContent);
                   results.push({
                     pageIndex,
                     pageTitle: page.title,
@@ -95,7 +101,6 @@ export default function Index() {
                   });
                 }
 
-                // Recursive check for nested subTopics
                 if (
                   contentItem.type === "subTopic" &&
                   Array.isArray(contentItem.content)
@@ -122,28 +127,45 @@ export default function Index() {
     return results;
   }
 
-  // Example Usage
-  const searchTerm = "und beteiligte"; // Example term
-  const searchResults = searchContent(data, searchTerm);
+  // useEffect(() => {
+  //   if (searchResults.length > 0) {
+  //     setResults(searchResults);
+  //     // setShowSearchResults(true);
+  //   }
+  // }, []);
 
-  console.log(searchResults.length, "herererrere");
+  const handleSearchResult = async () => {
+    return searchContent(data, searchQuery);
+  };
 
   useEffect(() => {
-    if (searchResults.length > 0) {
-      setResults(searchResults);
-      setShowSearchResults(true);
+    if (searchQuery.length > 1) {
+      (async () => {
+        const searchResults = await handleSearchResult();
+        if (searchResults.length > 0) {
+          setResults(searchResults);
+          setShowSearchResults(true);
+          // console.log(searchResults, "Results Found");
+        } else {
+          setShowSearchResults(false);
+        }
+      })();
+    } else {
+      setShowSearchResults(false);
     }
-  }, []);
-
-  console.log(searchResults);
+  }, [searchQuery]);
 
   return (
     <View style={{ flex: 1, backgroundColor: "#FFFFFF" }}>
       <StatusBar barStyle="dark-content" backgroundColor="#F5F5F5" />
       <AppBar bottomTitle="Hauptthemen" />
-      <HeroSection isUnterkategorie={false} />
+      <HeroSection
+        searchQuery={searchQuery}
+        setSearchQuery={setSearchQuery}
+        isUnterkategorie={false}
+      />
       {showSearchResults ? (
-        <SearchResults results={results} />
+        <SearchResults results={results} searchText={searchQuery} />
       ) : (
         <ButtonTitles
           buttonTitles={buttonTitles}
