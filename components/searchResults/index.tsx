@@ -28,7 +28,6 @@ const buttonTitles = [
 
 const SearchResults = ({ results, searchText }: Props) => {
   const handleNavigation = (page: number, index: number)=>{
-    console.log(page, index, "push push push the route")
     router.push({
       pathname: '/dynamicPage',
       params: { index: page, subIndex: index },
