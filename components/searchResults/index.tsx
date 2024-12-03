@@ -1,6 +1,13 @@
 import { router } from "expo-router";
 import React from "react";
-import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import {
+  Image,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 
 interface SearchResult {
   pageIndex: number;
@@ -25,20 +32,43 @@ const buttonTitles = [
   "VITALWERTE ÜBERPRÜFEN",
 ];
 
-
 const SearchResults = ({ results, searchText }: Props) => {
-  const handleNavigation = (page: number, index: number)=>{
+  const handleNavigation = (page: number, index: number) => {
     router.push({
-      pathname: '/dynamicPage',
+      pathname: "/dynamicPage",
       params: { index: page, subIndex: index },
     });
-  }
+  };
   return (
     <ScrollView style={{ paddingHorizontal: 20 }}>
-      <Text style={styles.staticText}>Suchbegriff: <Text style={styles.searchedTerm}>{searchText}</Text></Text>
+      <View
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "space-between",
+        }}
+      >
+        <Text style={styles.staticText}>
+          Suchbegriff: <Text style={styles.searchedTerm}>{searchText}</Text>
+        </Text>
+        <Text
+          style={{
+            fontFamily: "Brother 1816 Printed",
+            fontWeight: "300",
+            fontSize: 12,
+          }}
+        >
+          Suche beenden
+        </Text>
+      </View>
       {results?.map((item: SearchResult, index: number) => {
         return (
-          <TouchableOpacity activeOpacity={1} onPress={()=>handleNavigation(item.pageIndex, item.subPageIndex)} key={index} style={styles.container}>
+          <TouchableOpacity
+            activeOpacity={1}
+            onPress={() => handleNavigation(item.pageIndex, item.subPageIndex)}
+            key={index}
+            style={styles.container}
+          >
             <View style={styles.roundedLine} />
             <View style={styles.innerContainer}>
               <Text numberOfLines={1} style={styles.highlightText}>
@@ -49,6 +79,55 @@ const SearchResults = ({ results, searchText }: Props) => {
           </TouchableOpacity>
         );
       })}
+      {results?.length === 0 && (
+        <View style={styles.container}>
+          <View style={{ paddingVertical: 10, position: "relative" }}>
+            <Image
+              source={require("@/assets/images/redcross.png")}
+              style={{
+                alignSelf: "center",
+                position: "absolute",
+                top: "15%",
+                left: "38%",
+                zIndex: 10
+              }}
+            />
+            <Image
+              source={require("@/assets/images/search.png")}
+              style={{ alignSelf: "center" }}
+            />
+          </View>
+          <View
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              marginTop: 10,
+              justifyContent: "center",
+              alignSelf: "center",
+            }}
+          >
+            <View>
+              <Image
+                source={require("@/assets/images/Info.png")}
+                style={{ alignSelf: "center" }}
+              />
+            </View>
+            <Text
+              style={{
+                marginLeft: 10,
+                maxWidth: "95%",
+                fontFamily: "Brother 1816 Printed",
+                fontWeight: "700",
+                fontSize: 14,
+                lineHeight: 17,
+                color: "#000000",
+              }}
+            >
+              Es konnten keine Ergebnisse gefunden werden.
+            </Text>
+          </View>
+        </View>
+      )}
     </ScrollView>
   );
 };
@@ -102,7 +181,7 @@ const styles = StyleSheet.create({
   },
   roundedLine: {
     height: 2,
-    backgroundColor: "#899E33", 
+    backgroundColor: "#899E33",
     borderRadius: 15,
     width: "25%",
   },

@@ -7,18 +7,19 @@ import {
   Image,
   StatusBar,
   Pressable,
+  TouchableOpacity,
 } from "react-native";
 import AppBar from "../components/topBar";
 import HeroSection from "@/components/heroSection";
 import { MaterialIcons } from "@expo/vector-icons";
 import Feather from "@expo/vector-icons/Feather";
-import { useLocalSearchParams } from "expo-router";
+import { useLocalSearchParams, useRouter } from "expo-router";
 
 const data = require("../constants/data.json");
 
 export default function Index() {
+  const router = useRouter();
   const { index, subIndex } = useLocalSearchParams();
-  console.log(index, subIndex, typeof index, typeof subIndex, "---->");
   const page =
     data.pages[Number(index) as any].subPages[Number(subIndex) as any];
 
@@ -104,11 +105,21 @@ export default function Index() {
                         );
                       case "buttonText":
                         return (
-                          <View key={idx} style={styles.buttonText}>
-                            <Text style={styles.buttonTextContent}>
-                              {item.content}
-                            </Text>
-                          </View>
+                          <TouchableOpacity
+                            key={idx}
+                            onPress={() =>
+                              router.push({
+                                pathname: "/dynamicPage",
+                                params: { index, subIndex },
+                              })
+                            }
+                          >
+                            <View style={styles.buttonText}>
+                              <Text style={styles.buttonTextContent}>
+                                {item.content}
+                              </Text>
+                            </View>
+                          </TouchableOpacity>
                         );
                       case "redLine":
                         return <View key={idx} style={styles.redLine}></View>;
@@ -168,16 +179,23 @@ export default function Index() {
                                       );
                                     case "buttonText":
                                       return (
-                                        <View
+                                        <TouchableOpacity
                                           key={subItemContentIdx}
-                                          style={styles.buttonText}
+                                          onPress={() =>
+                                            router.push({
+                                              pathname: "/dynamicPage",
+                                              params: { index, subIndex },
+                                            })
+                                          }
                                         >
-                                          <Text
-                                            style={styles.buttonTextContent}
-                                          >
-                                            {subItemContent.content}
-                                          </Text>
-                                        </View>
+                                          <View style={styles.buttonText}>
+                                            <Text
+                                              style={styles.buttonTextContent}
+                                            >
+                                              {subItemContent.content}
+                                            </Text>
+                                          </View>
+                                        </TouchableOpacity>
                                       );
                                     case "paragraph":
                                       return (
@@ -283,24 +301,37 @@ export default function Index() {
                                                       );
                                                     case "buttonText":
                                                       return (
-                                                        <View
+                                                        <TouchableOpacity
                                                           key={
                                                             subSubItemContentIdx
                                                           }
-                                                          style={
-                                                            styles.buttonText
+                                                          onPress={() =>
+                                                            router.push({
+                                                              pathname:
+                                                                "/dynamicPage",
+                                                              params: {
+                                                                index,
+                                                                subIndex,
+                                                              },
+                                                            })
                                                           }
                                                         >
-                                                          <Text
+                                                          <View
                                                             style={
-                                                              styles.buttonTextContent
+                                                              styles.buttonText
                                                             }
                                                           >
-                                                            {
-                                                              subSubItemContent.content
-                                                            }
-                                                          </Text>
-                                                        </View>
+                                                            <Text
+                                                              style={
+                                                                styles.buttonTextContent
+                                                              }
+                                                            >
+                                                              {
+                                                                subSubItemContent.content
+                                                              }
+                                                            </Text>
+                                                          </View>
+                                                        </TouchableOpacity>
                                                       );
                                                     case "image":
                                                       return (

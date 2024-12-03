@@ -43,13 +43,12 @@ export default function Index() {
   };
 
   useEffect(() => {
-    if (searchQuery.length > 1) {
+    if (searchQuery.length >= 1) {
       (async () => {
         const searchResults = await handleSearchResult();
         if (searchResults.length > 0) {
           setResults(searchResults);
           setShowSearchResults(true);
-          console.log(searchResults, "Results Found");
         } else {
           setShowSearchResults(false);
         }
