@@ -48,10 +48,10 @@ export default function Index() {
         const searchResults = await handleSearchResult();
         if (searchResults.length > 0) {
           setResults(searchResults);
-          setShowSearchResults(true);
-        } else {
-          setShowSearchResults(false);
+        } else if (searchResults.length === 0) {
+          setResults([]);
         }
+        setShowSearchResults(true);
       })();
     } else {
       setShowSearchResults(false);
